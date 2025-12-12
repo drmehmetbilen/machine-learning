@@ -11,17 +11,16 @@ def get_embedding(text):
     embedding_result = result.data[0].embedding
     return embedding_result
 
+if __name__ == "__main__":
+    embeddings = []
+    df = pd.read_csv("data/maku_news.csv")
+    for index,row in df.iterrows():
+        print(f"Şu an {index}. haber işleniyor")
+        text = row["title"]+" - "+row["content"]
+        embedding = get_embedding(text)
+        embeddings.append(embedding)
 
-embeddings = []
-df = pd.read_csv("data/maku_news.csv")
-for index,row in df.iterrows():
-    print(f"Şu an {index}. haber işleniyor")
-    text = row["title"]+" - "+row["content"]
-    embedding = get_embedding(text)
-    embeddings.append(embedding)
-
-df["embedding"] = embeddings
-
-df.to_csv("data/maku_news_emb.csv")
+    df["embedding"] = embeddings
+    df.to_csv("data/maku_news_emb.csv")
     
     

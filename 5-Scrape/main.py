@@ -1,4 +1,5 @@
 from openai import OpenAI
+from rag import get_similar_records
 
 base_url = "http://localhost:11434/v1/"
 key = "ollama"
@@ -11,8 +12,9 @@ message_list = [
 
 while True:
     user_message = input("USER : ")
+    enriched_user_message = get_similar_records(user_message,3)
     message_list.append(
-        {"role":"user","content":user_message}
+        {"role":"user","content":enriched_user_message}
     )
     result = client.chat.completions.create(
         model=model_name,
